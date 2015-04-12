@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Random List Example</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="menu_clear_string">Clear menu</string>
+    <string name="menu_delete_string">Remove item</string>
+    <string name="menu_add_string">Add item</string>
+</resources>

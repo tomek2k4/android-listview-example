@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Losowa Lista Przyklad</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="menu_clear_string">Wyczysc menu</string>
+    <string name="menu_delete_string">Usun element</string>
+    <string name="menu_add_string">Dodaj element</string>
+
+</resources>
