@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import java.text.DateFormat;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,11 +36,6 @@ public class RandomListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         loadSimpleDates();
-
-        for (int i=0;i<10;i++)
-        {
-//            addRadomDate();
-        }
 
         String[] from = new String[] {"date","weekday"};
         int[] to =new  int[] {android.R.id.text1,android.R.id.text2};
@@ -102,8 +100,21 @@ public class RandomListActivity extends ListActivity {
         }else if(id == R.id.action_add){
             addRadomDate();
             dataAdapter.notifyDataSetChanged();
+        }else if(id == R.id.action_remove){
+            removeDateFromList(getSelectedItemPosition());
+            dataAdapter.notifyDataSetChanged();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void removeDateFromList(int item) {
+        Log.d("Tomek","Item selected: " + new Integer(item).toString());
+        try{
+            data.remove(item);
+        }catch (IndexOutOfBoundsException e){
+            Toast.makeText(this,"Index out of bound",Toast.LENGTH_LONG).show();
+        }
+
     }
 }
