@@ -8,6 +8,9 @@ import java.text.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -21,15 +24,18 @@ import java.util.Map;
 import java.util.Random;
 
 
-public class RandomListActivity extends ListActivity {
+public class RandomListActivity extends ListActivity implements AdapterView.OnItemClickListener {
 
     private static final int MAXIMUM_DAYS = 901;
     // "data"--> ?, "weekday" ---> ?
     private List<Map<String, String>> data = new LinkedList<Map<String, String>>();
     private SimpleAdapter dataAdapter;
+    private int selectedItemFromList = ListView.INVALID_POSITION;
 
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     SimpleDateFormat dayOfWeekDateFormat = new SimpleDateFormat("EEEE");
+
+    private String getSelectedItemOfList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,8 @@ public class RandomListActivity extends ListActivity {
         int[] to =new  int[] {android.R.id.text1,android.R.id.text2};
 
         dataAdapter = new SimpleAdapter(this,data, android.R.layout.simple_list_item_2,from,to);
+
+        getListView().setOnItemClickListener(this);
 
         setListAdapter(dataAdapter);
         getListView().setSelector(R.drawable.select_shape);
@@ -55,7 +63,7 @@ public class RandomListActivity extends ListActivity {
         Calendar cal = Calendar.getInstance();
         String day = dayOfWeekDateFormat.format(cal.getTime());
         record.put("date", dateFormat.format(cal.getTime()));
-        record.put("weekday",  day);
+        record.put("weekday", day);
         data.add(record);
     }
 
@@ -101,7 +109,7 @@ public class RandomListActivity extends ListActivity {
             addRadomDate();
             dataAdapter.notifyDataSetChanged();
         }else if(id == R.id.action_remove){
-            removeDateFromList(getSelectedItemPosition());
+            removeDateFromList(selectedItemFromList);
             dataAdapter.notifyDataSetChanged();
         }else if(id == R.id.action_clear){
 
@@ -119,4 +127,13 @@ public class RandomListActivity extends ListActivity {
         }
 
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+
+        Toast.makeText(this,"Item selected: "+new Integer(pos).toString(),Toast.LENGTH_LONG).show();
+
+        selectedItemFromList = pos; // here you will get selected item position.
+    }
+
 }

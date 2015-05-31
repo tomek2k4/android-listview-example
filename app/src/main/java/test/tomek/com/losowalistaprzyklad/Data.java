@@ -1,5 +1,6 @@
 package test.tomek.com.losowalistaprzyklad;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -11,11 +12,12 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class Data {
 
-    private List<Charging> backingList = new LinkedList<Charging>();
+    private Deque<Charging> backingList = new LinkedList<Charging>();
+
+    private boolean isLoaded = false;
+    private ReentrantLock lock = new ReentrantLock();
 
     private static final Data instance = new Data();
-
-    private ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
 
     private static Data getInstance(){
         return instance;
@@ -25,39 +27,57 @@ public class Data {
 
     }
 
-
-    public void chargingStarted(){
-        Lock lock = rwLock.writeLock();
+    public void chargingStarted() {
         lock.lock();
         try {
-
-        }finally {
-            lock.unlock();
-        }
-
-    }
-
-    public void chargingStopped(){
-        Lock lock = rwLock.writeLock();
-        lock.lock();
-        try {
-
-        }finally {
-            lock.unlock();
-        }
-    }
-
-    public void load(){
-        Lock lock = rwLock.writeLock();
-        lock.lock();
-        try {
-
-        }finally {
+            load();
+            if (backingList.isEmpty()) {
+                Charging nc = new Charging();
+                backingList.addLast(nc);
+            } else {
+                Charging last = backingList.getLast();
+                if (last.getStop() != null) {
+                    Charging nc = new Charging();
+                    backingList.addLast(nc);
+                } else {
+                    last.setStartAsNow();
+                }
+            }
+        } finally {
             lock.unlock();
         }
     }
 
+    public void chargingStopped() {
+        lock.lock();
+        try {
+            load();
+            if (!backingList.isEmpty()) {
+                Charging last = backingList.getLast();
+                if (last.getStop() == null) {
+                    last.setStopAsNow();
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
 
-    public
+    private void load() {
+        if (!isLoaded) {
+            // TODO: Load the data
+            isLoaded = true;
+        }
+    }
+
+    public Charging[] getChargingArray() {
+        lock.lock();
+        try {
+            load();
+            return backingList.toArray(new Charging[0]);
+        } finally {
+            lock.unlock();
+        }
+    }
 
 }
