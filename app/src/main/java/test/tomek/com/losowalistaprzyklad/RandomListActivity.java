@@ -103,6 +103,8 @@ public class RandomListActivity extends ListActivity {
         }else if(id == R.id.action_remove){
             removeDateFromList(getSelectedItemPosition());
             dataAdapter.notifyDataSetChanged();
+        }else if(id == R.id.action_clear){
+
         }
 
         return super.onOptionsItemSelected(item);

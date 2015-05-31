@@ -7,15 +7,35 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+
         <activity
             android:name=".RandomListActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:launchMode="singleInstance">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <receiver android:name=".PowerStatusReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED">
+                </action>
+
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED">
+                </action>
+
+            </intent-filter>
+
+
+
+
+        </receiver>
+
     </application>
 
 </manifest>

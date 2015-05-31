@@ -5,4 +5,7 @@
     <string name="menu_clear_string">Clear menu</string>
     <string name="menu_delete_string">Remove item</string>
     <string name="menu_add_string">Add item</string>
+    <string name="power_status_changed">Power status changed</string>
+    <string name="connected">Charger connected</string>
+    <string name="disconnected">Charger disconnected</string>
 </resources>
